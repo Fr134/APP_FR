@@ -162,7 +162,7 @@ def render_dashboard():
 
     col1, col2, col3, col4 = st.columns([1,1,1,1])
     with col1:
-        st.metric("💰 Ricavi Totali (€)", f"{incassi_totali:,.2f}")
+        st.metric("📈 Prezzo medio a notte (€)", f"{incassi_totali:,.0f}")
 
     
 
