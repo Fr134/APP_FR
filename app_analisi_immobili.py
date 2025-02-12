@@ -27,17 +27,18 @@ def upload_file():
 def load_and_preprocess_data(uploaded_file):
     data = pd.read_excel(
         uploaded_file,
-        usecols="A,B,C,D,E,F,G,H,L",
+        usecols="A,B,C,D,E,F,G,H,I,J",
         engine="openpyxl"
     )
 
     data.columns = [
         'codice',
+        'categoria',
         'descrizione',
         'distribuzione_costi',
         'prezzo_vendita',
         'ore_uomo',
-        'costo_personal',
+        'costo_personale',
         'costo_materiale_consumo',
         'noleggi_ammortamenti',
         'q.ty'
@@ -86,6 +87,37 @@ def inject_custom_css():
     """
     st.markdown(custom_css, unsafe_allow_html=True)
 
+
+def calcolo_kpi(data):
+
+    data['codice']
+    data['descrizione']
+    data['distribuzione_costi']
+    data['prezzo_vendita']
+    data['ore_uomo']
+    data['costo_personale']
+    data['costo_materiale_consumo']
+    data['noleggi_ammortamenti']
+    data['q.ty']
+    data['costo_totale_servizio'] = data['costo_personale'] + data['costo_materiale_consumo'] + data['noleggi_ammortamenti']
+    data['margine_servizio'] = data['prezzo_vendita'] - data['costo_totale_servizio']
+    data['incassi_totali'] = data['prezzo_vendita'] * data['q.ty']
+    data['costo_totale'] = data['costo_totale_servizio'] * data['q.ty']
+    data['margine_totale'] = data['margine_servizio'] * data['q.ty']
+
+    incassi_totali = data['incassi_totali'].sum
+    costi_totali = data['costo_totale'].sum
+    margine_totale = data['margine_totale'].sum
+
+    top3_incassi = data.nlarghest(3,'incassi_totali')
+    top3_margine = data.nlarghest(3, 'margine_totale')
+    
+
+    return data, incassi_totali, costi_totali, margine_totale
+
+
+
+
 def render_dashboard():
     """Visualizza la dashboard con KPI, grafici e calcolo dinamico delle notti disponibili"""
     inject_custom_css()
@@ -104,77 +136,15 @@ def render_dashboard():
     file_path = st.session_state['uploaded_file']
     data = st.session_state['data']
 
-    # Sezione Filtri - Filtro Gerarchico Regione -> Provincia -> Comune
-    with st.sidebar.expander("🔍 Filtro Dati"):
-        st.markdown("### Filtra per Regione, Provincia e Comune")
-
-        # Selezione Regione
-        regione_scelta = st.selectbox(
-            "Seleziona Regione",
-            options=sorted(data['Regione'].dropna().unique()),
-            key="regione_filter"
-        )
-
-        # Filtra le province in base alla regione selezionata
-        province_filtrate = data[data['Regione'] == regione_scelta]['Provincia'].dropna().unique()
-        provincia_scelta = st.selectbox(
-            "Seleziona Provincia",
-            options=sorted(province_filtrate),
-            key="provincia_filter"
-        )
-
-        # Filtra i comuni in base alla provincia selezionata
-        comuni_filtrati = data[
-            (data['Regione'] == regione_scelta) & (data['Provincia'] == provincia_scelta)
-        ]['Comune'].dropna().unique()
-        comune_scelto = st.selectbox(
-            "Seleziona Comune",
-            options=sorted(comuni_filtrati),
-            key="comune_filter"
-        )
-
-    # Sezione Filtro Date
-    with st.sidebar.expander("📅 Filtra per Data"):
-        st.markdown("### Seleziona un intervallo di date")
-
-        # Trova la prima colonna con data
-        colonne_data = [col for col in data.columns if "data" in col.lower() or "date" in col.lower()]
-        
-        if colonne_data:
-            colonna_data = colonne_data[0]  # Usa la prima colonna data trovata
-            data_min = data[colonna_data].min()
-            data_max = data[colonna_data].max()
-
-            # Selezione dell'intervallo di date
-            data_inizio, data_fine = st.date_input(
-                "Seleziona intervallo di date",
-                [data_min, data_max],
-                min_value=data_min,
-                max_value=data_max
-            )
-        else:
-            st.warning("⚠️ Nessuna colonna data trovata nel dataset.")
-            data_inizio, data_fine = None, None
+    
+    
+    data, incassi_totali, costi_totali, margine_totale = calcolo_kpi(data)
 
     # Mostra i dati filtrati
-    st.write(f"Hai selezionato: **{regione_scelta}**, **{provincia_scelta}**, **{comune_scelto}**")
+    st.dataframe(data)
 
-    # Filtra il dataset in base alla selezione
-    data_filtrata = data[
-        (data['Regione'] == regione_scelta) & 
-        (data['Provincia'] == provincia_scelta) & 
-        (data['Comune'] == comune_scelto)
-    ]
+    
 
-    # Applica il filtro per data se presente
-    if colonne_data and data_inizio and data_fine:
-        data_filtrata = data_filtrata[
-            (data_filtrata[colonna_data] >= pd.Timestamp(data_inizio)) &
-            (data_filtrata[colonna_data] <= pd.Timestamp(data_fine))
-        ]
-
-    # Mostra i dati filtrati
-    st.dataframe(data_filtrata)
 
 # Esegui la funzione principale
 if __name__ == "__main__":
