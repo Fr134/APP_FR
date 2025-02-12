@@ -129,12 +129,36 @@ def render_dashboard():
     file_path = st.session_state['uploaded_file']
     data = st.session_state['data']
 
+        with st.sidebar.expander("🔍 Filtro Dati"):
+        st.markdown("### Filtra i dati")
+
+        # Filtro per Categoria
+        categoria = st.selectbox(
+            "Seleziona Categoria",
+            ["Tutte"] + list(data['Categoria'].unique()),
+            key="categoria_filter"
+        )
+
+        # Filtro per Descrizione
+        descrizione = st.selectbox(
+            "Seleziona Descrizione",
+            ["Tutte"] + list(data['Descrizione'].unique()),
+            key="descrizione_filter"
+        )
+
+    # Applicazione filtri
+    filtered_df = data.copy()
+
+    if categoria != "Tutte":
+        filtered_df = filtered_df[filtered_df['Categoria'] == categoria]
+
+    if descrizione != "Tutte":
+        filtered_df = filtered_df[filtered_df['Descrizione'] == descrizione]
     
-    
-    data, incassi_totali, costi_totali, margine_totale = calcolo_kpi(data)
+    filtered_df, incassi_totali, costi_totali, margine_totale = calcolo_kpi(filtered_df)
 
     # Mostra i dati filtrati
-    st.dataframe(data)
+    st.dataframe(filtered_df)
 
     
 
