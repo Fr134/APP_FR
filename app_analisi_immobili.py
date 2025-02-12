@@ -135,14 +135,14 @@ def render_dashboard():
         # Filtro per Categoria
         categoria = st.selectbox(
             "Seleziona Categoria",
-            ["Tutte"] + list(data['Categoria'].unique()),
+            ["Tutte"] + list(data['categoria'].unique()),
             key="categoria_filter"
         )
 
         # Filtro per Descrizione
         descrizione = st.selectbox(
             "Seleziona Descrizione",
-            ["Tutte"] + list(data['Descrizione'].unique()),
+            ["Tutte"] + list(data['descrizione'].unique()),
             key="descrizione_filter"
         )
 
