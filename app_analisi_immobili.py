@@ -50,7 +50,7 @@ def load_and_preprocess_data(uploaded_file):
                        "costo_personale", "costo_materiale_consumo",
                        "noleggi_ammortamenti", "q.ty" ]  # Sostituisci con i nomi reali delle colonne
     # Converte solo le colonne specificate in numerico (i valori non numerici diventano NaN)
-    data[cols_to_convert] = data[cols_to_convert].apply(pd.to_numeric, errors='coerce')
+    data[cols_to_convert] = data[cols_to_convert].apply(pd.to_numeric, errors='coerce').fillna(0)
 
 
 
