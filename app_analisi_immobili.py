@@ -158,7 +158,7 @@ def render_dashboard():
     filtered_df, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine = calcolo_kpi(filtered_df)
 
     # Mostra i dati filtrati
-    st.dataframe(filtered_df, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine)
+    st.dataframe(top3_incassi)
 
     
 
