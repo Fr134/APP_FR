@@ -228,7 +228,7 @@ def render_dashboard():
 
     with col4,col5:
         st.write("### Grafico a Barre: Incassi, Costi e Margine")
-        grafico_barre(data)
+        grafico_barre(filtered_df)
     with col6:
         st.metric("📈 Servizio con incassi maggiori", top3_incassi['descrizione'].iloc[0])
         st.metric("📈 (€)", top3_incassi['incassi_totali'].iloc[0])
