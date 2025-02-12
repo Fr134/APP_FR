@@ -150,10 +150,10 @@ def render_dashboard():
     filtered_df = data.copy()
 
     if categoria != "Tutte":
-        filtered_df = filtered_df[filtered_df['Categoria'] == categoria]
+        filtered_df = filtered_df[filtered_df['categoria'] == categoria]
 
     if descrizione != "Tutte":
-        filtered_df = filtered_df[filtered_df['Descrizione'] == descrizione]
+        filtered_df = filtered_df[filtered_df['descrizione'] == descrizione]
     
     filtered_df, incassi_totali, costi_totali, margine_totale = calcolo_kpi(filtered_df)
 
