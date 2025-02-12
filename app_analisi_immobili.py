@@ -215,6 +215,7 @@ def render_dashboard():
 
     # Mostra i dati filtrati
     st.dataframe(top3_incassi)
+    st.write(list(filtered_df.columns))  # Mostra i nomi come lista
 
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
