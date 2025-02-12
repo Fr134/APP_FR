@@ -175,7 +175,10 @@ def render_dashboard():
 
     col4, col5, col6 = st.columns([1,1,1])
     with col6:
-        st.metric("📈 Ricavi Totali (€)", top3_incassi['descrizione'].iloc[2])
+        st.metric("📈 Servizio con incassi maggiori", top3_incassi['descrizione'].iloc[0])
+        st.metric("📈 ", top3_incassi['incassi_totali'].iloc[0])
+        st.metric("📈 ", top3_incassi['costo_totale'].iloc[0])
+        st.metric("📈 ", top3_incassi['margine_totale'].iloc[0])
 
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
