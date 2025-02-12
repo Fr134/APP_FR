@@ -153,7 +153,7 @@ def grafico_barre(df):
     sns.set_style("white")
 
     # Modifica la dimensione del grafico
-    fig, ax = plt.subplots(figsize=(12, 7))  # Modifica qui le dimensioni
+    fig, ax = plt.subplots(figsize=(24, 10))  # Modifica qui le dimensioni
 
     # Larghezza delle barre
     larghezza_barra = 0.2
