@@ -129,13 +129,13 @@ def grafico_barre(df):
     - Asse Y: valori in euro (incassi_totali, costi_totali, margine_totale)
     """
     # Controlla se il DataFrame ha i dati necessari
-    colonne_richieste = {'descrizione', 'incassi_totali', 'costi_totali', 'margine_totale'}
+    colonne_richieste = {'descrizione', 'incassi_totali', 'costo_totale', 'margine_totale'}
     if not colonne_richieste.issubset(df.columns):
-        st.error("Il DataFrame non contiene tutte le colonne richieste: 'descrizione', 'incassi_totali', 'costi_totali', 'margine_totale'")
+        st.error("Il DataFrame non contiene tutte le colonne richieste: 'descrizione', 'incassi_totali', 'costo_totale', 'margine_totale'")
         return
 
     # Converti in numerico per sicurezza e riempi eventuali NaN con 0
-    df[['incassi_totali', 'costi_totali', 'margine_totale']] = df[['incassi_totali', 'costi_totali', 'margine_totale']].apply(pd.to_numeric, errors='coerce').fillna(0)
+    df[['incassi_totali', 'costi_totali', 'margine_totale']] = df[['incassi_totali', 'costo_totale', 'margine_totale']].apply(pd.to_numeric, errors='coerce').fillna(0)
 
     # Imposta lo stile del grafico
     sns.set_style("whitegrid")
@@ -149,7 +149,7 @@ def grafico_barre(df):
 
     # Plotta le tre serie di dati
     ax.bar([pos - larghezza_barra for pos in x], df['incassi_totali'], width=larghezza_barra, label="Incassi Totali", color='blue')
-    ax.bar(x, df['costi_totali'], width=larghezza_barra, label="Costi Totali", color='red')
+    ax.bar(x, df['costo_totale'], width=larghezza_barra, label="Costi Totali", color='red')
     ax.bar([pos + larghezza_barra for pos in x], df['margine_totale'], width=larghezza_barra, label="Margine Totale", color='green')
 
     # Etichette sugli assi
