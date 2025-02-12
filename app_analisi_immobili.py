@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 
 # Configurazione della pagina
 st.set_page_config(
-    page_title="Dashboard Dati Immobiliari",
+    page_title="Dashboard Cabina estetica",
     layout="wide",
     initial_sidebar_state="expanded",
     page_icon="📊"
@@ -90,15 +90,7 @@ def inject_custom_css():
 
 def calcolo_kpi(data):
 
-    data['codice']
-    data['descrizione']
-    data['distribuzione_costi']
-    data['prezzo_vendita']
-    data['ore_uomo']
-    data['costo_personale']
-    data['costo_materiale_consumo']
-    data['noleggi_ammortamenti']
-    data['q.ty']
+    
     data['costo_totale_servizio'] = data['costo_personale'] + data['costo_materiale_consumo'] + data['noleggi_ammortamenti']
     data['margine_servizio'] = data['prezzo_vendita'] - data['costo_totale_servizio']
     data['incassi_totali'] = data['prezzo_vendita'] * data['q.ty']
@@ -121,7 +113,8 @@ def calcolo_kpi(data):
 def render_dashboard():
     """Visualizza la dashboard con KPI, grafici e calcolo dinamico delle notti disponibili"""
     inject_custom_css()
-    st.title("📊 Dashboard Dati immobiliari")
+    st.title("📊 Dashboard Cabina estetica")
+    upload_file()
 
     # Verifica se i dati principali sono disponibili
     if 'data' not in st.session_state or st.session_state['data'] is None:
