@@ -131,6 +131,7 @@ def grafico_barre(df):
     - Asse X: descrizione (nomi delle righe)
     - Asse Y: valori in euro (incassi_totali, costi_totali, margine_totale)
     """
+
     # Controlla se il DataFrame ha i dati necessari
     colonne_richieste = {'descrizione', 'incassi_totali', 'costo_totale', 'margine_totale'}
     if not colonne_richieste.issubset(df.columns):
@@ -138,11 +139,21 @@ def grafico_barre(df):
         return
 
     # Converti in numerico per sicurezza e riempi eventuali NaN con 0
-    df[['incassi_totali', 'costi_totali', 'margine_totale']] = df[['incassi_totali', 'costo_totale', 'margine_totale']].apply(pd.to_numeric, errors='coerce').fillna(0)
+    df[['incassi_totali', 'costo_totale', 'margine_totale']] = df[['incassi_totali', 'costo_totale', 'margine_totale']].apply(pd.to_numeric, errors='coerce').fillna(0)
 
-    # Imposta lo stile del grafico
-    sns.set_style("whitegrid")
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Filtra solo le righe con incassi_totali > 0
+    df = df[df['incassi_totali'] > 0]
+
+    # Se non ci sono dati dopo il filtro, mostra un messaggio e termina
+    if df.empty:
+        st.warning("Nessun dato disponibile con incassi_totali > 0.")
+        return
+
+    # Imposta lo stile del grafico (senza griglia)
+    sns.set_style("white")
+
+    # Modifica la dimensione del grafico
+    fig, ax = plt.subplots(figsize=(12, 7))  # Modifica qui le dimensioni
 
     # Larghezza delle barre
     larghezza_barra = 0.2
@@ -235,9 +246,9 @@ def render_dashboard():
         grafico_barre(filtered_df)
     with col6:
         st.metric("📈 Servizio con incassi maggiori", top3_incassi['descrizione'].iloc[0])
-        st.metric("📈 (€)", top3_incassi['incassi_totali'].iloc[0])
-        st.metric("📈 (€)", top3_incassi['costo_totale'].iloc[0])
-        st.metric("📈 (€)", top3_incassi['margine_totale'].iloc[0])
+        st.metric("📈 Incasso(€)", top3_incassi['incassi_totali'].iloc[0])
+        st.metric("📈 Costo Totale del servizio(€)", top3_incassi['costo_totale'].iloc[0])
+        st.metric("📈 Margine(€)", top3_incassi['margine_totale'].iloc[0])
 
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
