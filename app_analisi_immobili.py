@@ -122,7 +122,48 @@ def calcolo_kpi(data):
 
     return data, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine
 
+def grafico_barre(df):
+    """
+    Crea un grafico a barre verticali con 3 barre per ogni riga del DataFrame.
+    - Asse X: descrizione (nomi delle righe)
+    - Asse Y: valori in euro (incassi_totali, costi_totali, margine_totale)
+    """
+    # Controlla se il DataFrame ha i dati necessari
+    colonne_richieste = {'descrizione', 'incassi_totali', 'costi_totali', 'margine_totale'}
+    if not colonne_richieste.issubset(df.columns):
+        st.error("Il DataFrame non contiene tutte le colonne richieste: 'descrizione', 'incassi_totali', 'costi_totali', 'margine_totale'")
+        return
 
+    # Converti in numerico per sicurezza e riempi eventuali NaN con 0
+    df[['incassi_totali', 'costi_totali', 'margine_totale']] = df[['incassi_totali', 'costi_totali', 'margine_totale']].apply(pd.to_numeric, errors='coerce').fillna(0)
+
+    # Imposta lo stile del grafico
+    sns.set_style("whitegrid")
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Larghezza delle barre
+    larghezza_barra = 0.2
+
+    # Genera le posizioni per ogni categoria
+    x = range(len(df))
+
+    # Plotta le tre serie di dati
+    ax.bar([pos - larghezza_barra for pos in x], df['incassi_totali'], width=larghezza_barra, label="Incassi Totali", color='blue')
+    ax.bar(x, df['costi_totali'], width=larghezza_barra, label="Costi Totali", color='red')
+    ax.bar([pos + larghezza_barra for pos in x], df['margine_totale'], width=larghezza_barra, label="Margine Totale", color='green')
+
+    # Etichette sugli assi
+    ax.set_xlabel("Descrizione", fontsize=12)
+    ax.set_ylabel("Quantità (€)", fontsize=12)
+    ax.set_title("Confronto Incassi, Costi e Margine Totale", fontsize=14)
+    ax.set_xticks(x)
+    ax.set_xticklabels(df['descrizione'], rotation=45, ha="right")
+
+    # Mostra la legenda
+    ax.legend()
+
+    # Mostra il grafico in Streamlit
+    st.pyplot(fig)
 
 
 def render_dashboard():
@@ -184,11 +225,15 @@ def render_dashboard():
         st.metric("📈 Margine Totale (€)", f"{margine_totale:,.0f}")
 
     col4, col5, col6 = st.columns([1,1,1])
+
+    with col4,col5:
+        st.write("### Grafico a Barre: Incassi, Costi e Margine")
+        grafico_barre(data)
     with col6:
         st.metric("📈 Servizio con incassi maggiori", top3_incassi['descrizione'].iloc[0])
-        st.metric("📈 ", top3_incassi['incassi_totali'].iloc[0])
-        st.metric("📈 ", top3_incassi['costo_totale'].iloc[0])
-        st.metric("📈 ", top3_incassi['margine_totale'].iloc[0])
+        st.metric("📈 (€)", top3_incassi['incassi_totali'].iloc[0])
+        st.metric("📈 (€)", top3_incassi['costo_totale'].iloc[0])
+        st.metric("📈 (€)", top3_incassi['margine_totale'].iloc[0])
 
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
