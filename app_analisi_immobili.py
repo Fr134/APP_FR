@@ -97,9 +97,9 @@ def calcolo_kpi(data):
     data['costo_totale'] = data['costo_totale_servizio'] * data['q.ty']
     data['margine_totale'] = data['margine_servizio'] * data['q.ty']
 
-    incassi_totali = data['incassi_totali'].sum
-    costi_totali = data['costo_totale'].sum
-    margine_totale = data['margine_totale'].sum
+    incassi_totali = data['incassi_totali'].sum()
+    costi_totali = data['costo_totale'].sum()
+    margine_totale = data['margine_totale'].sum()
 
     # Gestione di NaN e conversione sicura in float
     incassi_totali = float(incassi_totali) if pd.notna(incassi_totali) else 0
