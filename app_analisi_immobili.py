@@ -165,11 +165,17 @@ def render_dashboard():
     # Mostra i dati filtrati
     st.dataframe(top3_incassi)
 
-    col1, col2, col3, col4 = st.columns([1,1,1,1])
+    col1, col2, col3 = st.columns([1,1,1])
     with col1:
-        st.metric("📈 Prezzo medio a notte (€)", f"{incassi_totali:,.0f}")
+        st.metric("📈 Ricavi Totali (€)", f"{incassi_totali:,.0f}")
+    with col2:
+        st.metric("📈 Costi Totali (€)", f"{costi_totali:,.0f}")
+    with col3:
+        st.metric("📈 Margine Totale (€)", f"{margine_totale:,.0f}")
 
-    
+    col4, col5, col6 = st.columns([1,1,1])
+    with col6:
+        st.metric("📈 Ricavi Totali (€)", top3_incassi['descrizione'].iloc[2]")
 
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
