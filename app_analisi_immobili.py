@@ -101,6 +101,11 @@ def calcolo_kpi(data):
     costi_totali = data['costo_totale'].sum
     margine_totale = data['margine_totale'].sum
 
+    # Gestione di NaN e conversione sicura in float
+    incassi_totali = float(incassi_totali) if pd.notna(incassi_totali) else 0
+    costi_totali = float(costi_totali) if pd.notna(costi_totali) else 0
+    margine_totale = float(margine_totale) if pd.notna(margine_totale) else 0
+
     top3_incassi = data.nlargest(3,'incassi_totali')
     top3_margine = data.nlargest(3, 'margine_totale')
     
