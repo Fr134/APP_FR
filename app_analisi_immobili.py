@@ -101,8 +101,8 @@ def calcolo_kpi(data):
     costi_totali = data['costo_totale'].sum
     margine_totale = data['margine_totale'].sum
 
-    top3_incassi = data.nlarghest(3,'incassi_totali')
-    top3_margine = data.nlarghest(3, 'margine_totale')
+    top3_incassi = data.nlargest(3,'incassi_totali')
+    top3_margine = data.nlargest(3, 'margine_totale')
     
 
     return data, incassi_totali, costi_totali, margine_totale
