@@ -114,7 +114,7 @@ def render_dashboard():
     """Visualizza la dashboard con KPI, grafici e calcolo dinamico delle notti disponibili"""
     inject_custom_css()
     st.title("📊 Dashboard Cabina estetica")
-    upload_file()
+    
 
     # Verifica se i dati principali sono disponibili
     if 'data' not in st.session_state or st.session_state['data'] is None:
@@ -163,6 +163,9 @@ def render_dashboard():
     
 
 
-# Esegui la funzione principale
-if __name__ == "__main__":
+menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
+
+if menu == "Carica File":
+    upload_file()
+elif menu == "Dashboard":
     render_dashboard()
