@@ -129,7 +129,7 @@ def render_dashboard():
     file_path = st.session_state['uploaded_file']
     data = st.session_state['data']
 
-        with st.sidebar.expander("🔍 Filtro Dati"):
+    with st.sidebar.expander("🔍 Filtro Dati"):
         st.markdown("### Filtra i dati")
 
         # Filtro per Categoria
