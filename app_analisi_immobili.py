@@ -31,6 +31,7 @@ def load_and_preprocess_data(uploaded_file):
         engine="openpyxl"
     )
 
+
     data.columns = [
         'codice',
         'categoria',
@@ -44,6 +45,15 @@ def load_and_preprocess_data(uploaded_file):
         'q.ty'
     ]
     data = data.dropna(subset=['codice'])
+    # Lista delle colonne da convertire in numerico
+    cols_to_convert = ["distribuzione_costi", "prezzo_vendita", "ore_uomo", 
+                       "costo_personale", "costo_materiale_consumo",
+                       "noleggi_ammortamenti", "q.ty" ]  # Sostituisci con i nomi reali delle colonne
+    # Converte solo le colonne specificate in numerico (i valori non numerici diventano NaN)
+    data[cols_to_convert] = data[cols_to_convert].apply(pd.to_numeric, errors='coerce')
+
+
+
 
     return data
 
