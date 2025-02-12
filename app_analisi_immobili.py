@@ -167,8 +167,8 @@ def grafico_barre(df):
     ax.bar([pos + larghezza_barra for pos in x], df['margine_totale'], width=larghezza_barra, label="Margine Totale", color='green')
 
     # Etichette sugli assi
-    ax.set_xlabel("Descrizione", fontsize=12)
-    ax.set_ylabel("Quantità (€)", fontsize=12)
+    ax.set_xlabel("Descrizione", fontsize=20)
+    ax.set_ylabel("Quantità (€)", fontsize=20)
     ax.set_title("Confronto Incassi, Costi e Margine Totale", fontsize=14)
     ax.set_xticks(x)
     ax.set_xticklabels(df['descrizione'], rotation=45, ha="right")
