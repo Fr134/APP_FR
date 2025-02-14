@@ -241,10 +241,8 @@ def render_dashboard():
     
     filtered_df, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine = calcolo_kpi(filtered_df)
 
-    # Mostra i dati filtrati
-    st.dataframe(top3_incassi)
-    st.write(list(filtered_df.columns))  # Mostra i nomi come lista
 
+#############               Impaginazione                ##############
 
     col01, col02 =st.columns([2,1])
     with col01:
@@ -305,12 +303,3 @@ if menu == "Carica File":
     upload_file()
 elif menu == "Dashboard":
     render_dashboard()
-
-
-
-
-
-
-
-    # Mostra i dati della riga selezionata dal DataFrame corretto
-    
