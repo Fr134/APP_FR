@@ -245,20 +245,19 @@ def render_dashboard():
     st.dataframe(top3_incassi)
     st.write(list(filtered_df.columns))  # Mostra i nomi come lista
 
-    col1, col2, col3 = st.columns([1,1,1])
-    with col1:
-        st.metric("📈 Ricavi Totali (€)", f"{incassi_totali:,.0f}")
-    with col2:
-        st.metric("📈 Costi Totali (€)", f"{costi_totali:,.0f}")
-    with col3:
-        st.metric("📈 Margine Totale (€)", f"{margine_totale:,.0f}")
 
-    col4, col6 = st.columns([2,1])
-
-    with col4:
+    col01, col02 =st.columns([2,1])
+    with col01:
+        col1, col2, col3 = st.columns([1,1,1])
+        with col1:
+            st.metric("📈 Ricavi Totali (€)", f"{incassi_totali:,.0f}")
+        with col2:
+            st.metric("📈 Costi Totali (€)", f"{costi_totali:,.0f}")
+        with col3:
+            st.metric("📈 Margine Totale (€)", f"{margine_totale:,.0f}")
         st.write("### Grafico a Barre: Incassi, Costi e Margine")
-        grafico_barre(filtered_df)
-    with col6:
+        grafico_barre(filtered_df)    
+    with col02:
         # Menù a tendina per selezionare tra "Incassi" e "Margine"
         selected_metric = st.selectbox(
             
@@ -277,7 +276,7 @@ def render_dashboard():
         # Mostra il titolo dinamico in base alla selezione
         st.subheader(title)
 
-    # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
+        # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
         selected_option = st.radio(
 
             "Seleziona il servizio da visualizzare:",
@@ -296,6 +295,13 @@ def render_dashboard():
         st.metric("📈 Numero Trattamenti", selected_df['q.ty'].iloc[selected_index])
     
 
+    
+
+    col5, col6 = st.columns([2,1])
+
+    with col5:
+        
+    
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
 
 if menu == "Carica File":
