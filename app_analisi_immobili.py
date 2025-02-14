@@ -289,10 +289,10 @@ def render_dashboard():
         selected_index = {"Primo": 0, "Secondo": 1, "Terzo": 2}[selected_option]
         # Mostra i dati della riga selezionata
         st.metric("📈 Servizio", selected_df['descrizione'].iloc[selected_index])
-        st.metric("📈 Incassi Totali servizio(€)", selected_df['incassi_totali'].iloc[selected_index])
-        st.metric("📈 Costi Totali per il servizio(€)", selected_df['costo_totale'].iloc[selected_index])
-        st.metric("📈 Margine sul servizio(€)", selected_df['margine_totale'].iloc[selected_index])
-        st.metric("📈 Numero Trattamenti", selected_df['q.ty'].iloc[selected_index])
+        st.metric("📈 Incassi Totali servizio(€)", f"{selected_df['incassi_totali'].iloc[selected_index]:,.0f}")
+        st.metric("📈 Costi Totali per il servizio(€)", f"{selected_df['costo_totale'].iloc[selected_index]:,.0f}")
+        st.metric("📈 Margine sul servizio(€)", f"{selected_df['margine_totale'].iloc[selected_index]:,.0f}")
+        st.metric("📈 Numero Trattamenti", f"{selected_df['q.ty'].iloc[selected_index]:,.0f}")
     
 
     
