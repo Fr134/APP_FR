@@ -185,8 +185,8 @@ def grafico_barre(df):
         yaxis_title="Quantità (€)",
         xaxis_tickangle=-45,
         legend_title="Tipologia",
-        height=2100,  # Altezza del grafico
-        width=1000,  # Larghezza del grafico
+        height=500,  # Altezza del grafico
+        width=1200,  # Larghezza del grafico
         template="plotly_white"  # Rimuove lo sfondo grigliato
     )
 
