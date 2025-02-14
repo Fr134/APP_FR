@@ -186,7 +186,7 @@ def grafico_barre(df):
         xaxis_tickangle=-45,
         legend_title="Tipologia",
         height=700,  # Altezza del grafico
-        width=1200,  # Larghezza del grafico
+        width=3600,  # Larghezza del grafico
         template="plotly_white"  # Rimuove lo sfondo grigliato
     )
 
