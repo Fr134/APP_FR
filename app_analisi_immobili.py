@@ -297,10 +297,7 @@ def render_dashboard():
 
     
 
-    col5, col6 = st.columns([2,1])
-
-    with col5:
-        
+    
     
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
 
