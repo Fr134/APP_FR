@@ -3,7 +3,8 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
-import matplotlib.pyplot as plt
+
+
 
 
 # Configurazione della pagina
@@ -125,9 +126,7 @@ def calcolo_kpi(data):
 
     return data, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine
 
-import streamlit as st
-import pandas as pd
-import plotly.graph_objects as go
+
 
 def grafico_barre(df):
     """
@@ -180,12 +179,12 @@ def grafico_barre(df):
     # Personalizzazione del layout
     fig.update_layout(
         barmode='group',  # Barre affiancate
-        title="Confronto Incassi, Costi e Margine Totale",
+        title="Confronto Incassi, Costi e Margine per trattamento",
         xaxis_title="Descrizione",
         yaxis_title="Quantità (€)",
         xaxis_tickangle=-45,
         legend_title="Tipologia",
-        height=500,  # Altezza del grafico
+        height=400,  # Altezza del grafico
         width=1200,  # Larghezza del grafico
         template="plotly_white"  # Rimuove lo sfondo grigliato
     )
@@ -260,11 +259,26 @@ def render_dashboard():
         st.write("### Grafico a Barre: Incassi, Costi e Margine")
         grafico_barre(filtered_df)
     with col6:
-        st.metric("📈 Servizio con incassi maggiori", top3_incassi['descrizione'].iloc[0])
-        st.metric("📈 Incasso(€)", top3_incassi['incassi_totali'].iloc[0])
-        st.metric("📈 Costo Totale del servizio(€)", top3_incassi['costo_totale'].iloc[0])
-        st.metric("📈 Margine(€)", top3_incassi['margine_totale'].iloc[0])
+    # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
+        selected_option = st.radio(
+            "Seleziona il servizio da visualizzare:",
+            options=["Primo", "Secondo", "Terzo"],  # Etichette visibili all'utente
+            "Seleziona il servizio da visualizzare:",
+            options=["Primo", "Secondo", "Terzo"],  # Etichette visibili all'utente
+            horizontal=True
+        )
 
+        # Mappa la scelta dell'utente agli indici del DataFrame
+        selected_index = {"Primo": 0, "Secondo": 1, "Terzo": 2}[selected_option]
+        # Mostra i dati della riga selezionata
+        st.metric("📈 Servizio", top3_incassi['descrizione'].iloc[selected_index])
+        st.metric("📈 Incasso(€)", top3_incassi['incassi_totali'].iloc[selected_index])
+        st.metric("📈 Costo Totale del servizio(€)", top3_incassi['costo_totale'].iloc[selected_index])
+        st.metric("📈 Margine(€)", top3_incassi['margine_totale'].iloc[selected_index])
+        st.metric("📈 Numero Trattamenti", top3_incassi['q.ty'].iloc[selected_index])
+
+    
+    
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
 
