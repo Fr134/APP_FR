@@ -259,7 +259,7 @@ def render_dashboard():
         # Menù a tendina per selezionare tra "Incassi" e "Margine"
         selected_metric = st.selectbox(
             
-            "Seleziona il tipo di dati da visualizzare:",
+            
             options=["Incassi", "Margine"]
         )
 
