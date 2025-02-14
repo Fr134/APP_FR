@@ -293,6 +293,7 @@ def render_dashboard():
         st.metric("📈 Incasso(€)" if selected_metric == "Incassi" else "📈 Margine(€)", 
                   selected_df['incassi_totali'].iloc[selected_index] if selected_metric == "Incassi" else selected_df['margine_totale'].iloc[selected_index])
         st.metric("📈 Costo Totale del servizio(€)", selected_df['costo_totale'].iloc[selected_index])
+        st.metric("📈 Costo Totale del servizio(€)", selected_df['margine_totale'].iloc[selected_index])
         st.metric("📈 Numero Trattamenti", selected_df['q.ty'].iloc[selected_index])
     
 
