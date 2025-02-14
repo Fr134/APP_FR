@@ -261,10 +261,10 @@ def render_dashboard():
     with col6:
     # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
         selected_option = st.radio(
+
             "Seleziona il servizio da visualizzare:",
             options=["Primo", "Secondo", "Terzo"],  # Etichette visibili all'utente
-            "Seleziona il servizio da visualizzare:",
-            options=["Primo", "Secondo", "Terzo"],  # Etichette visibili all'utente
+            
             horizontal=True
         )
 
