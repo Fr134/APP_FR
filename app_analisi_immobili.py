@@ -259,6 +259,24 @@ def render_dashboard():
         st.write("### Grafico a Barre: Incassi, Costi e Margine")
         grafico_barre(filtered_df)
     with col6:
+        # Menù a tendina per selezionare tra "Incassi" e "Margine"
+        selected_metric = st.selectbox(
+            
+            "Seleziona il tipo di dati da visualizzare:",
+            options=["Incassi", "Margine"]
+        )
+
+        # Seleziona il DataFrame corretto in base alla scelta dell'utente
+        if selected_metric == "Incassi":
+            selected_df = top3_incassi
+            title = "📊 Top 3 Incassi"
+        else:
+            selected_df = top3_margine
+            title = "📊 Top 3 Margine"
+
+        # Mostra il titolo dinamico in base alla selezione
+        st.subheader(title)
+
     # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
         selected_option = st.radio(
 
@@ -271,13 +289,11 @@ def render_dashboard():
         # Mappa la scelta dell'utente agli indici del DataFrame
         selected_index = {"Primo": 0, "Secondo": 1, "Terzo": 2}[selected_option]
         # Mostra i dati della riga selezionata
-        st.metric("📈 Servizio", top3_incassi['descrizione'].iloc[selected_index])
-        st.metric("📈 Incasso(€)", top3_incassi['incassi_totali'].iloc[selected_index])
-        st.metric("📈 Costo Totale del servizio(€)", top3_incassi['costo_totale'].iloc[selected_index])
-        st.metric("📈 Margine(€)", top3_incassi['margine_totale'].iloc[selected_index])
-        st.metric("📈 Numero Trattamenti", top3_incassi['q.ty'].iloc[selected_index])
-
-    
+        st.metric("📈 Servizio", selected_df['descrizione'].iloc[selected_index])
+        st.metric("📈 Incasso(€)" if selected_metric == "Incassi" else "📈 Margine(€)", 
+                  selected_df['incassi_totali'].iloc[selected_index] if selected_metric == "Incassi" else selected_df['margine_totale'].iloc[selected_index])
+        st.metric("📈 Costo Totale del servizio(€)", selected_df['costo_totale'].iloc[selected_index])
+        st.metric("📈 Numero Trattamenti", selected_df['q.ty'].iloc[selected_index])
     
 
 menu = st.sidebar.selectbox("Navigazione", ["Carica File", "Dashboard"])
@@ -286,3 +302,12 @@ if menu == "Carica File":
     upload_file()
 elif menu == "Dashboard":
     render_dashboard()
+
+
+
+
+
+
+
+    # Mostra i dati della riga selezionata dal DataFrame corretto
+    
