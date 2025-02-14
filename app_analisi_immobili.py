@@ -254,9 +254,9 @@ def render_dashboard():
     with col3:
         st.metric("📈 Margine Totale (€)", f"{margine_totale:,.0f}")
 
-    col4, col5, col6 = st.columns([1,1,1])
+    col4, col6 = st.columns([2,1])
 
-    with col4,col5:
+    with col4:
         st.write("### Grafico a Barre: Incassi, Costi e Margine")
         grafico_barre(filtered_df)
     with col6:
