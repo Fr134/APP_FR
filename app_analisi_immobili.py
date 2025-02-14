@@ -125,6 +125,10 @@ def calcolo_kpi(data):
 
     return data, incassi_totali, costi_totali, margine_totale, top3_incassi, top3_margine
 
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+
 def grafico_barre(df):
     """
     Crea un grafico a barre verticali con 3 barre per ogni riga del DataFrame.
@@ -149,35 +153,46 @@ def grafico_barre(df):
         st.warning("Nessun dato disponibile con incassi_totali > 0.")
         return
 
-    # Imposta lo stile del grafico (senza griglia)
-    sns.set_style("white")
+    # Crea il grafico a barre con Plotly
+    fig = go.Figure()
 
-    # Modifica la dimensione del grafico
-    fig, ax = plt.subplots(figsize=(50, 30))  # Modifica qui le dimensioni
+    fig.add_trace(go.Bar(
+        x=df['descrizione'],
+        y=df['incassi_totali'],
+        name='Incassi Totali',
+        marker_color='blue'
+    ))
 
-    # Larghezza delle barre
-    larghezza_barra = 0.2
+    fig.add_trace(go.Bar(
+        x=df['descrizione'],
+        y=df['costo_totale'],
+        name='Costi Totali',
+        marker_color='red'
+    ))
 
-    # Genera le posizioni per ogni categoria
-    x = range(len(df))
+    fig.add_trace(go.Bar(
+        x=df['descrizione'],
+        y=df['margine_totale'],
+        name='Margine Totale',
+        marker_color='green'
+    ))
 
-    # Plotta le tre serie di dati
-    ax.bar([pos - larghezza_barra for pos in x], df['incassi_totali'], width=larghezza_barra, label="Incassi Totali", color='blue')
-    ax.bar(x, df['costo_totale'], width=larghezza_barra, label="Costi Totali", color='red')
-    ax.bar([pos + larghezza_barra for pos in x], df['margine_totale'], width=larghezza_barra, label="Margine Totale", color='green')
-
-    # Etichette sugli assi
-    ax.set_xlabel("Descrizione", fontsize=20)
-    ax.set_ylabel("Quantità (€)", fontsize=20)
-    ax.set_title("Confronto Incassi, Costi e Margine Totale", fontsize=14)
-    ax.set_xticks(x)
-    ax.set_xticklabels(df['descrizione'], rotation=45, ha="right")
-
-    # Mostra la legenda
-    ax.legend()
+    # Personalizzazione del layout
+    fig.update_layout(
+        barmode='group',  # Barre affiancate
+        title="Confronto Incassi, Costi e Margine Totale",
+        xaxis_title="Descrizione",
+        yaxis_title="Quantità (€)",
+        xaxis_tickangle=-45,
+        legend_title="Tipologia",
+        height=700,  # Altezza del grafico
+        width=1200,  # Larghezza del grafico
+        template="plotly_white"  # Rimuove lo sfondo grigliato
+    )
 
     # Mostra il grafico in Streamlit
-    st.pyplot(fig)
+    st.plotly_chart(fig)
+
 
 
 def render_dashboard():
