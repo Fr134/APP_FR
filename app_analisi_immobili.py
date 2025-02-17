@@ -263,6 +263,12 @@ def render_dashboard():
             options=["Incassi", "Margine"]
         )
 
+        # Seleziona il DataFrame corretto in base alla scelta dell'utente
+        if selected_metric == "Incassi":
+            selected_df = top3_incassi
+        else:
+            selected_df = top3_margine
+
         # Selettore per scegliere la riga del DataFrame (Mostra "Primo", "Secondo", "Terzo")
         selected_option = st.radio(
 
